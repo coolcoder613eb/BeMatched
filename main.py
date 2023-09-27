@@ -17,14 +17,13 @@ class StartWindow(BWindow):
         )
         START_MSG = int32(b"StBt")
         self.events = {START_MSG: self.start}
-        self.start_msg = BMessage(START_MSG)
         self.panel = BView(self.Bounds(), "panel", 8, 20000000)
         self.label = BStringView(BRect(40, 30, 200, 50), "label", "Match It")
         font=be_plain_font
         font.SetSize(font.Size()+5)
         self.label.SetFont(font)
         self.start_button = BButton(
-            BRect(40, 90, 100, 50), "start_button", "Start", self.start_msg
+            BRect(40, 90, 100, 50), "start_button", "Start", BMessage(START_MSG)
         )
         self.panel.AddChild(self.label, None)
         self.panel.AddChild(self.start_button, None)
@@ -57,14 +56,15 @@ class SetupWindow(BWindow):
         )
         OK_MSG = int32(b"OkBt")
         self.events = {OK_MSG: self.ok}
-        self.ok_msg = BMessage(OK_MSG)
         self.panel = BView(self.Bounds(), "panel", 8, 20000000)
         #self.label_1 = BStringView(BRect(50, 10, 150, 30), "label 1", "Name Of Player 1")
-        self.input_1 = BTextControl(BRect(50, 10, 250, 20), "input 1", "Name Of Player 1","player1",self.ok_msg)
+        self.input_1 = BTextControl(
+            BRect(50, 10, 250, 20), "input 1", "Name Of Player 1", "player1", BMessage(OK_MSG)
+        )
         #be_plain_font.SetSize(be_plain_font.Size()-5)
         #self.input_1.SetFont(be_plain_font)
         self.ok_button = BButton(
-            BRect(40, 90, 100, 50), "ok_button", "Ok", self.ok_msg
+            BRect(40, 90, 100, 50), "ok_button", "Ok", BMessage(OK_MSG)
         )
         self.panel.AddChild(self.input_1, None)
         self.panel.AddChild(self.ok_button, None)
