@@ -21,11 +21,13 @@ from .Roster import *
 from .Window import *
 from .Rect import *
 from .View import *
-from .Button import *
 from .Control import *
+from .Button import *
 from .TextControl import *
 from .Font import *
 from .StringView import *
+from .InterfaceDefs import *
+from .Alert import *
 
 def int32(bytestr):
 	return unpack('i',bytestr)[0]
