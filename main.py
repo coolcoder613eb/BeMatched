@@ -6,6 +6,8 @@ import time
 
 
 should_close=True
+OK_MSG = int32(b"OkBt")
+START_MSG = int32(b"StBt")
 
 class StartWindow(BWindow):
     def __init__(self):
@@ -17,8 +19,7 @@ class StartWindow(BWindow):
             B_NORMAL_WINDOW_FEEL,
             B_NOT_RESIZABLE | B_QUIT_ON_WINDOW_CLOSE,
         )
-        START_MSG = int32(b"StBt")
-        self.events = {START_MSG: self.start}
+        self.events[START_MSG] = self.start
         self.panel = BView(self.Bounds(), "panel", 8, 20000000)
         self.label = BStringView(BRect(40, 30, 200, 50), "label", "Match It")
         font=be_plain_font
@@ -56,14 +57,13 @@ class SetupWindow(BWindow):
             B_NORMAL_WINDOW_FEEL,
             B_NOT_RESIZABLE | B_QUIT_ON_WINDOW_CLOSE,
         )
-        OK_MSG = int32(b"OkBt")
-        self.events = {OK_MSG: self.ok}
+        self.events[OK_MSG] = self.ok
         self.panel = BView(self.Bounds(), "panel", 8, 20000000)
         self.input_1 = BTextControl(
-            BRect(10, 10, 330, 20), "input 1", "Name Of Player 1", "player1", BMessage(OK_MSG)
+            BRect(10, 10, 330, 20), "input 1", "Name Of Player 1", "player1", None
         )
         self.input_2 = BTextControl(
-            BRect(10, 60, 330, 20), "input 2", "Name Of Player 2", "player2", BMessage(OK_MSG)
+            BRect(10, 60, 330, 20), "input 2", "Name Of Player 2", "player2",None
         )
         self.ok_button = BButton(
             BRect(120, 100, 210, 50), "ok_button", "Ok", BMessage(OK_MSG)
@@ -73,12 +73,6 @@ class SetupWindow(BWindow):
         self.panel.AddChild(self.ok_button, None)
         self.AddChild(self.panel, None)
         self.Show()
-
-    def MessageReceived(self, msg):
-        if msg.what in self.events:
-            self.events[msg.what](msg)
-        else:
-            BWindow.MessageReceived(self, msg)
     
 
     def ok(self, msg):

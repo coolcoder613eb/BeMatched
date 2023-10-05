@@ -1,6 +1,4 @@
 from struct import unpack
-#from .AppKit import *
-#from .InterfaceKit import *
 from .AppDefs import *
 from .Clipboard import *
 from .Cursor import *
@@ -28,6 +26,23 @@ from .Font import *
 from .StringView import *
 from .InterfaceDefs import *
 from .Alert import *
+
+_BWindow=BWindow
+_BApplication=BApplication
+def MessageReceived(self, msg):
+    if msg.what in self.events:
+        self.events[msg.what](msg)
+    else:
+        super(type(self)).MessageReceived(msg)
+
+class BWindow(_BWindow):
+    events={}
+    MessageReceived=MessageReceived
+
+class BApplication(_BApplication):
+    events={}
+    MessageReceived=MessageReceived
+
 
 def int32(bytestr):
 	return unpack('i',bytestr)[0]
